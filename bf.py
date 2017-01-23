@@ -58,8 +58,8 @@ class Brainfuck:
                     top = stack.pop()
                 except IndexError:
                     raise SyntaxError('Unmatched closing brace')
-                bytecode[top][1] = len(bytecode)
                 bytecode.append([self.do_jmp, top])
+                bytecode[top][1] = len(bytecode)
             # Other characters are ignored.
         if stack:
             raise SyntaxError('Unmatched opening braces')
@@ -77,7 +77,7 @@ class Brainfuck:
     def do_input(self):
         self.tape[self.pointer] = self.input()
     def do_cjmp(self, where):
-        if self.tape[self.pointer]: return where
+        if not self.tape[self.pointer]: return where
     def do_jmp(self, where):
         return where
     def run(self, code=None):
