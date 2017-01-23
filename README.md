@@ -11,3 +11,5 @@ control bookkeeping, and debugging, but still does not count creating proper tes
 
 **v2.0** was written in the following half an hour after feed-back from @Garmelon (more exactly,
 [his implementation](https://gist.github.com/Garmelon/6bbbd68461d480e46e3b8ae446220ed0)).
+
+**v3.0** adds a minor (or major?) enhancement in that custom commands can be actually specified.
