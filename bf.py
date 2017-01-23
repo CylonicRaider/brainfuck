@@ -91,6 +91,25 @@ class Brainfuck:
                 self._cmdp = res
 
 def main():
-    pass
+    commands, cmdfile = None, None
+    if len(sys.argv) <= 1:
+        usage(1)
+    elif sys.argv[1] == '--help':
+        usage(0)
+    elif sys.argv[1] == '-c':
+        if len(sys.argv) != 3: usage(1)
+        commands = sys.argv[2]
+    elif sys.argv[1] == '--':
+        if len(sys.argv) != 3: usage(1)
+        cmdfile = sys.argv[1]
+    elif sys.argv[1].startswith('-'):
+        usage(1)
+    else:
+        cmdfile = sys.argv[1]
+    if cmdfile is not None:
+        with open(cmdfile) as f:
+            commands = f.read()
+    bf = Brainfuck(read_byte, write_byte)
+    bf.run(commands)
 
 if __name__ == '__main__': main()
