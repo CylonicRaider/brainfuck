@@ -7,9 +7,10 @@ import sys
 
 def read_byte():
     try:
-        return ord(sys.stdin.buffer.read(1))
+        ch = sys.stdin.buffer.read(1)
     except AttributeError:
-        return ord(sys.stdin.read(1))
+        ch = sys.stdin.read(1)
+    return ord(ch) if ch else 0
 def write_byte(b):
     try:
         sys.stdout.buffer.write(bytes([b]))
