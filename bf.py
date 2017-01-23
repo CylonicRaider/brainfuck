@@ -69,15 +69,15 @@ class Brainfuck:
     def do_left(self):
         self.pointer = (self.pointer - 1) % len(self.tape)
     def do_incr(self):
-        self.data[self.pointer] = (self.data[self.pointer] + 1) % 255
+        self.tape[self.pointer] = (self.tape[self.pointer] + 1) % 255
     def do_decr(self):
-        self.data[self.pointer] = (self.data[self.pointer] - 1) % 255
+        self.tape[self.pointer] = (self.tape[self.pointer] - 1) % 255
     def do_output(self):
-        self.output(self.data[self.pointer])
+        self.output(self.tape[self.pointer])
     def do_input(self):
-        self.data[self.pointer] = self.input()
+        self.tape[self.pointer] = self.input()
     def do_cjmp(self, where):
-        if self.data[self.pointer]: return where
+        if self.tape[self.pointer]: return where
     def do_jmp(self, where):
         return where
     def run(self, code=None):
