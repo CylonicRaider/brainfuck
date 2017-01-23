@@ -3,7 +3,22 @@
 
 # Brainfuck interpreter.
 
+import sys
+
 TAPESIZE = 1000
+
+def read_byte():
+    try:
+        return ord(sys.stdin.buffer.read(1))
+    except AttributeError:
+        return ord(sys.stdin.read(1))
+def write_byte(b):
+    try:
+        sys.stdout.buffer.write(bytes([b]))
+        sys.stdout.buffer.flush()
+    except AttributeError:
+        sys.stdout.write(chr(b))
+        sys.stdout.flush()
 
 class Brainfuck:
     def __init__(self, input, output, tapesize=None):
