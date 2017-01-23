@@ -12,6 +12,7 @@ class Brainfuck:
         self.input = input
         self.output = output
         self.pointer = 0
+        self.tape = [0] * self.tapesize
         self.code = None
         self._cmdp = None
         self._bytecode = None
@@ -48,6 +49,22 @@ class Brainfuck:
         if stack:
             raise SyntaxError('Unmatched opening braces')
         self._bytecode = tuple(map(tuple, bytecode))
+    def do_right(self):
+        self.pointer = (self.pointer + 1) % len(self.tape)
+    def do_left(self):
+        self.pointer = (self.pointer - 1) % len(self.tape)
+    def do_incr(self):
+        self.data[self.pointer] = (self.data[self.pointer] + 1) % 255
+    def do_decr(self):
+        self.data[self.pointer] = (self.data[self.pointer] - 1) % 255
+    def do_output(self):
+        self.output(self.data[self.pointer])
+    def do_input(self):
+        self.data[self.pointer] = self.input()
+    def do_cjmp(self, where):
+        if self.data[self.pointer]: return where
+    def do_jmp(self, where):
+        return where
 
 def main():
     pass
