@@ -65,6 +65,15 @@ class Brainfuck:
         if self.data[self.pointer]: return where
     def do_jmp(self, where):
         return where
+    def run(self, code=None):
+        if code is not None: self.compile(code)
+        while self._cmdp < len(self._bytecode):
+            instr = self._bytecode[self._cmdp]
+            res = instr[0](*instr[1:])
+            if res is None:
+                self._cmdp += 1
+            else:
+                self._cmdp = res
 
 def main():
     pass
