@@ -5,8 +5,6 @@
 
 import sys
 
-TAPESIZE = 1000
-
 def read_byte():
     try:
         return ord(sys.stdin.buffer.read(1))
@@ -21,13 +19,11 @@ def write_byte(b):
         sys.stdout.flush()
 
 class Brainfuck:
-    def __init__(self, input, output, tapesize=None):
-        if tapesize is None: tapesize = TAPESIZE
-        self.tapesize = tapesize
+    def __init__(self, input, output):
         self.input = input
         self.output = output
         self.pointer = 0
-        self.tape = [0] * self.tapesize
+        self.tape = {}
         self.code = None
         self._cmdp = None
         self._bytecode = None
@@ -65,19 +61,21 @@ class Brainfuck:
             raise SyntaxError('Unmatched opening braces')
         self._bytecode = tuple(map(tuple, bytecode))
     def do_right(self):
-        self.pointer = (self.pointer + 1) % len(self.tape)
+        self.pointer += 1
     def do_left(self):
-        self.pointer = (self.pointer - 1) % len(self.tape)
+        self.pointer -= 1
     def do_incr(self):
-        self.tape[self.pointer] = (self.tape[self.pointer] + 1) % 255
+        value = self.tape.get(self.pointer, 0)
+        self.tape[self.pointer] = (value + 1) % 255
     def do_decr(self):
-        self.tape[self.pointer] = (self.tape[self.pointer] - 1) % 255
+        value = self.tape.get(self.pointer, 0)
+        self.tape[self.pointer] = (value - 1) % 255
     def do_output(self):
-        self.output(self.tape[self.pointer])
+        self.output(self.tape.get(self.pointer, 0))
     def do_input(self):
         self.tape[self.pointer] = self.input()
     def do_cjmp(self, where):
-        if not self.tape[self.pointer]: return where
+        if not self.tape.get(self.pointer): return where
     def do_jmp(self, where):
         return where
     def run(self, code=None):
